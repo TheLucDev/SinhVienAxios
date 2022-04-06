@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  LUU_SINH_VIEN,
   SUA_SINH_VIEN,
   XOA_SINH_VIEN,
 } from "../Redux/constant/quanlySvConstant";
@@ -20,7 +21,7 @@ class ItemSinhVien extends Component {
             data-target="#modelId"
             className="btn btn-success mr-1"
             onClick={() => {
-              this.props.suaSinhVien();
+              this.props.suaSinhVien(sv);
             }}
           >
             Sửa
@@ -54,6 +55,12 @@ let mapDispatchToProps = (dispatch) => {
     suaSinhVien: (sv) => {
       dispatch({
         type: SUA_SINH_VIEN,
+        payload: sv,
+      });
+    },
+    capNhatSinhVien: (sv) => {
+      dispatch({
+        type: LUU_SINH_VIEN,
         payload: sv,
       });
     },

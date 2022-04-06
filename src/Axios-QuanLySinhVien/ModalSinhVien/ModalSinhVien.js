@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   SUA_SINH_VIEN,
   THEM_SINH_VIEN,
+  LUU_SINH_VIEN,
 } from "../Redux/constant/quanlySvConstant";
 
 class ModalSinhVien extends Component {
@@ -20,7 +21,20 @@ class ModalSinhVien extends Component {
       sinhVien: { ...this.state.sinhVien, [e.target.name]: e.target.value },
     });
   }
-  // UNSAFE_componentWillReceiveProps(nextProps) {}
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.editSinhVien) {
+      this.setState({ sinhVien: nextProps.editSinhVien });
+    } else {
+      this.setState({
+        sinhVien: {
+          id: "",
+          name: "",
+          email: "",
+          phone: "",
+        },
+      });
+    }
+  }
   render() {
     console.log("editsv", this.props.editSinhVien);
     return (
@@ -34,7 +48,7 @@ class ModalSinhVien extends Component {
             data-target="#modelId"
             onClick={this.props.resetEditSinhVien}
           >
-            Open Modal
+            Thêm sinh viên
           </button>
           {/* Modal */}
           <div
@@ -127,20 +141,22 @@ class ModalSinhVien extends Component {
                 </div>
                 <div className="modal-footer">
                   <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button
                     onClick={() => {
                       this.props.themSinhVien(this.state.sinhVien);
                     }}
                     type="button"
                     className="btn btn-primary"
                   >
-                    Save
+                    Lưu mới
+                  </button>
+                  <button
+                    onClick={() => {
+                      this.props.capNhatSinhVien(this.state.sinhVien);
+                    }}
+                    type="button"
+                    className="btn btn-primary"
+                  >
+                    Cập Nhật
                   </button>
                 </div>
               </div>
@@ -164,6 +180,12 @@ let mapDispatchToProps = (dispatch) => {
       dispatch({
         type: SUA_SINH_VIEN,
         payload: null,
+      });
+    },
+    capNhatSinhVien: (sv) => {
+      dispatch({
+        type: LUU_SINH_VIEN,
+        payload: sv,
       });
     },
   };

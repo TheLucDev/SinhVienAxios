@@ -1,8 +1,8 @@
 import {
+  LUU_SINH_VIEN,
   SET_DANH_SACH_SV,
   SUA_SINH_VIEN,
   THEM_SINH_VIEN,
-  TIM_KIEM_SINH_VIEN,
   XOA_SINH_VIEN,
 } from "../constant/quanlySvConstant";
 
@@ -24,31 +24,28 @@ export const quanlySvReducer = (state = initialState, action) => {
       return { ...state };
     case XOA_SINH_VIEN:
       let id = action.payload;
-
       let newcloneArr = [...state.dssv];
       let index = newcloneArr.findIndex((sv) => {
-        return sv.id == id;
+        return sv.id === id;
       });
       index !== -1 && newcloneArr.splice(index, 1);
       state.dssv = newcloneArr;
       return { ...state };
     case SUA_SINH_VIEN: {
-      let editSinhVien = action.payload;
-
-      // let cloneArr = [...state.dssv];
-
-      // let index = cloneArr.findIndex((sv) => {
-      //   return sv.id === editSinhVien.id;
-      // });
-
-      // if(index!==-1){
-
-      // }
-      state.editSinhVien = editSinhVien;
-
+      state.editSinhVien = action.payload;
       return { ...state };
     }
-    case TIM_KIEM_SINH_VIEN:
+    case LUU_SINH_VIEN:
+      // state.editSinhVien = { ...state.editSinhVien };
+      let newcloneArr2 = [...state.dssv];
+      let index2 = newcloneArr2.findIndex((sv) => {
+        return sv.id === state.editSinhVien.id;
+      });
+      if (index2 !== -1) {
+        newcloneArr2[index2] = state.editSinhVien;
+        // console.log("editSV", state.editSinhVien);
+      }
+      // state.editSinhVien = editSinhVien;
       return { ...state };
     default:
       return { ...state };
